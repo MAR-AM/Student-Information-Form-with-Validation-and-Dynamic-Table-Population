@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        th{
+            background-color: black;
+            color: azure;
+            padding: 16px;
+            font-weight: lighter;
+        }
+        label{
+            display: inline-block;
+            width: 200px;
+        }
+        td{
+            padding: 18px;
+        }
+        input{
+            width: 200px;
+            height: 18px;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <label for="nom">Nom complet : </label>
+        <input type="text" name="nom" id="nom" onblur="validationNom()"><em id="Error"></em><br><br>
+
+        <label for="email">Email : </label>
+        <input type="email" id="email" onblur="validationEmail()"><em id="Error2"></em><br><br>
+
+        <label for="matiere">Nom de la matiere : </label>
+        <input type="text" name="matiere" id="matiere" onblur="validationMatiere()"><em id="Error3"></em><br><br>
+
+        <label for="control1">Note control 1 : </label>
+        <input type="number" id="n1" onblur="validationControl1()">
+        <em id="nb1Error"></em><br><br>
+
+        <label for="control2">Note control 2 : </label>
+        <input type="number" id="control2" onblur="validationControl2()">
+        <em id="nb2Error"></em><br><br>
+
+        <label for="coif">Coifficient : </label>
+        <input type="number" name="coif" id="coif" onblur="validationCoiff()">
+        <em id="Error6"></em><br><br>
+
+    </form>
+    <button onclick="ajouterEtudiant()">Ajouter </button>
+
+    <h2>Liste des etudiants </h2>
+
+    <table border="1" id="maTable">
+        <tr>
+            <th>Nom complet</th>
+            <th>Email</th>
+            <th>Nom de la matiere</th>
+            <th>Note controle 1</th>
+            <th>Note control 2 </th>
+            <th>Coifficient</th>
+            <th>Moyenne</th>
+        </tr>
+        
+    </table>
+
+    <script>
+        function validationNom(){
+            var nom =document.getElementById("nom").value;
+            var input =document.getElementById("nom");
+            var nameV = /^[A-Z][a-z]*\s[A-Z][a-z]/;
+            if (!nameV.test(nom)) {
+                input.style.borderColor = "red"
+                document.getElementById('Error').innerText = 'Le nom complet doit contenir au moins deux mots,chaque mot commençant par une lettre majuscule !';
+                document.getElementById('Error').style.color="red"
+            }else {
+                input.style.borderColor = "green"
+                document.getElementById('Error').innerText='✅';}
+        }
+        function validationEmail(){
+            input=document.getElementById("email")
+            var email = document.getElementById('email').value;
+            var emailV = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailV.test(email)) {
+                input.style.borderColor = "red";
+                document.getElementById('Error2').innerText = 'Email non valide';
+                document.getElementById('Error2').style.color="red";
+            }else {
+                input.style.borderColor = "green"
+                document.getElementById('Error2').innerText="✅"; 
+                }
+        }
+        function validationMatiere(){
+            var input=document.getElementById("matiere")
+            var matiere = document.getElementById('matiere').value;
+            var matiereV = /^[a-zA-Z]+$/;
+            if (!matiereV.test(matiere)) {
+                input.style.borderColor = "red";
+                document.getElementById('Error3').innerText = 'champs invalide';
+                document.getElementById('Error3').style.color="red";
+            }else {
+                input.style.borderColor = "green"
+                document.getElementById('Error3').innerText="✅"; 
+                }
+        }
+        function validationControl1(){
+                input=document.getElementById("n1")
+            var nb1 = document.getElementById("n1").value;
+            if (nb1<0 && nb1 >20 || nb1==""){
+                input.style.borderColor = "red"
+                document.getElementById('nb1Error').innerText = 'Veuillez entrer un nombre  compris entre 0 et 20.';
+                document.getElementById('nb1Error').style.color="red"
+                
+            } else{
+                input.style.borderColor = "green"
+                document.getElementById('nb1Error').innerText = '✅';
+            }
+
+        }
+        function validationControl2(){
+            input=document.getElementById("control2")
+            var nb2 = document.getElementById("control2").value;
+            if (nb2<0 && nb2>20 || nb2=="" ){
+                input.style.borderColor = "red"
+                document.getElementById('nb2Error').innerText = 'Veuillez entrer un nombre  compris entre 0 et 20.';
+                document.getElementById('nb2Error').style.color="red"
+            } else{
+                input.style.borderColor = "green"
+                document.getElementById('nb2Error').innerText = '✅';
+            }
+        }
+        function validationCoiff(){
+            input=document.getElementById("coif")
+            var coif = document.getElementById('coif').value;
+            var coifV = /^\d+$/; 
+            if (!coifV.test(coif)) {
+                input.style.borderColor = "red";
+                document.getElementById('Error6').innerText = 'non valide';
+                document.getElementById('Error6').style.color="red";
+            }else {
+                input.style.borderColor = "green"
+                document.getElementById('Error6').innerText="✅"; 
+                }
+        }
+        function ajouterEtudiant() {
+            var nomComplet = document.getElementById("nom").value;
+            var email = document.getElementById("email").value;
+            var matiere = document.getElementById("matiere").value;
+            var control1 = parseFloat(document.getElementById("control1").value);
+            var control2 = parseFloat(document.getElementById("control2").value);
+            var Coifficient = parseFloat(document.getElementById("coif").value);
+
+            var moy = (control1 + control2 )/2;
+
+            var table = document.getElementById("maTable");
+            var tr = document.createElement("tr");
+
+            var td_nom = document.createElement("td");
+            var td_email = document.createElement("td");
+            var td_matiere= document.createElement("td");
+            var td_control1 = document.createElement("td");
+            var td_control2 = document.createElement("td");
+            var td_coif = document.createElement("td");
+            var moyenne = document.createElement("td");
+
+
+            td_nom.innerText = nomComplet;
+            td_email.innerText = email;
+            td_matiere.innerText = matiere;
+            td_control1.innerText = control1;
+            td_control2.innerText = control2;
+            td_coif.innerText = Coifficient;
+            moyenne.innerText = moy;
+
+
+            tr.appendChild(td_nom);
+            tr.appendChild(td_email);
+            tr.appendChild(td_matiere);
+            tr.appendChild(td_control1);
+            tr.appendChild(td_control2);
+            tr.appendChild(td_coif);
+
+            table.appendChild(tr);
+            
+
+
+        }
+        
+        
+    
+    </script>
+</body>
+</html>
